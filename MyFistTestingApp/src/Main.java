@@ -16,5 +16,6 @@ public class Main
 
 		double product = number1 * number2;
 		System.out.printf("The product of both numbers is: %f", product);
+		System.out.println();
 	}
 }
