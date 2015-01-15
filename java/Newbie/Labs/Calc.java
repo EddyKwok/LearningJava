@@ -1,0 +1,36 @@
+/**
+ * Listing 6-12. Parsing command-line arguments into double precision floating-point values.
+ *
+ */
+
+class Calc
+{
+	public static void main(String[] args)
+	{
+		if (args.length != 3)
+		{
+			System.err.println("usage: java Calc value1 op value2");
+			System.err.println("op is one of +, -, *, or /");
+			assert args.length == 3 : "args.length = " + args.length;
+			return;
+		}
+		try
+		{
+			double value1 = Double.parseDouble(args[0]);
+			double value2 = Double.parseDouble(args[2]);
+
+			switch (args[1])
+			{
+				case "+": System.out.println(value1+value2); break;
+				case "-": System.out.println(value1-value2); break;
+				case "*": System.out.println(value1*value2); break;
+				case "/": System.out.println(value1/value2); break;
+				default: System.err.println("invalid operator : " + args[1]);
+			}
+		}
+		catch (NumberFormatException nfe)
+		{
+			System.err.println("Bad number format: " + nfe.getMessage());
+		}
+	}
+}

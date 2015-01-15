@@ -1,0 +1,9 @@
+class Asterisk
+{
+	public static voic main(String[] args)
+	{
+		for (int i=0;i<args.length;i++)
+			System.out.println(args[i]);
+	}
+}
+
