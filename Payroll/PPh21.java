@@ -10,17 +10,17 @@
 	private int ptkp;
 	private Month firstMonth=Month.JANUARY, lastMonth=Month.DECEMBER;
 
-	private boolean Final=false;
+	private boolean isFinal=false;
 	
-	private BigDecimal brutto = new BigDecimal(BigDecimal.ZERO);
-	private BigDecimal bonus = new BigDecimal(BigDecimal.ZERO);
+	private BigDecimal brutto = BigDecimal.ZERO;
+	private BigDecimal bonus = BigDecimal.ZERO;
 	
 	private boolean hasMaritalStatusSet, has1stMonthSet;
 	private boolean hasLastMonthSet, hasFinalSet, hasBruttoSet, hasBonusSet;
 	
-	private BigDecimal OccupationFeeValue = new BigDecimal(BigDecimal.ZERO);
-        private BigDecimal oFeeReg = new BigDecimal(BigDecimal.ZERO);
-        private BigDecimal oFeeBonus = new BigDecimal(BigDecimal.ZERO);
+	private BigDecimal OccupationFeeValue = BigDecimal.ZERO;
+        private BigDecimal oFeeReg = BigDecimal.ZERO;
+        private BigDecimal oFeeBonus = BigDecimal.ZERO;
 	
 	public void setMaritalStatus(MaritalStatus ms) {
 	    PTKP objPTKP = new PTKP(ms);
@@ -40,20 +40,20 @@
 	}
 	
 	public void setFinal(boolean fin) {
-	    this.Final = fin;
+	    this.isFinal = fin;
             this.hasFinalSet = true;
 	}
 	
 	public void set1stMonth(Month firstMonth) throws InvalidMonthPeriodException {
 	    if (firstMonth.ordinal() < this.lastMonth.ordinal())
-	        throw InvalidMonthPeriodException(firstMonth, this.lastMonth);
+	        throw new InvalidMonthPeriodException(firstMonth, this.lastMonth);
 	    this.firstMonth = firstMonth;
-            this.hasFirstMonthSet = true;
+            this.has1stMonthSet = true;
 	}
 	
 	public void setLastMonth(Month lastMonth) throws InvalidMonthPeriodException {
 	    if (lastMonth.ordinal() < this.firstMonth.ordinal())
-	        throw InvalidMonthPeriodException(this.firstMonth, lastMonth);
+	        throw new InvalidMonthPeriodException(this.firstMonth, lastMonth);
 	    this.lastMonth = lastMonth;
             this.hasLastMonthSet = true;
 	}
@@ -69,24 +69,24 @@
 	}
 	
 	/*
-	 * Should only be excecuted when month periods and Final have been set.
+	 * Should only be excecuted when month periods and isFinal have been set.
 	 */
 	private void CalcOccupationFeeValue() {
 	    assert has1stMonthSet && hasLastMonthSet && hasFinalSet && hasBruttoSet && hasBonusSet;
 	    
-            int monthCnt = 0;
+            BigDecimal monthCnt = BigDecimal.ZERO;
             
             if (isFinal)
                 monthCnt = this.lastMonth.getMonth()-this.firstMonth.getMonth()+1;
             else
-                monthCnt = 12-this.firstMonthh.getMonth()+1;
+                monthCnt = this.firstMonth.getMonth()+1;
             
-            BigDecimal oFee = new BigDecimal(OccupationFee.Percentage.multiply(this.brutto));
+            BigDecimal oFee = OccupationFee.Percentage.multiply(this.brutto);
             oFee = oFee.setScale(0, RoundingMode.HALF_UP);
             
-            BigDecimal maxOcFee = OccupationFee.MaxValuePerMonth.multiply(monthCnt);
+            BigDecimal maxOcFee = OccupationFee.MaxValuePerMonth.multiply((char) monthCnt);
             
-            BIgDecimal oFeeBonus = new BigDecimal(BigDecimal.ZERO);
+            BigDecimal oFeeBonus = new BigDecimal(BigDecimal.ZERO);
             
             if (oFee.compareTo(maxOcFee)==1)
                 oFee = maxOcFee; // Biaya Jabatan as Brutto exclude THR
