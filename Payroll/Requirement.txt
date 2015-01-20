@@ -1,0 +1,91 @@
+Properties:
+1. Status marital / Marital Status; Single no dipendent (S0), Single with one dipendency (S1) .. S3, Married no dipendent (K0), .. K3.
+2. Periode/masa kerja (jumlah bulan kerja)
+3. Final / masih bekerja atau sudah resign. Resign = final.
+4. PTKP; pribadi, tambahan.
+5. Biaya jabatan; Persentasi biaya jabatan, maksimum biaya jabatan per bulan.
+6. Pendapatan Kena Pajak YTD
+7. Bonus dan/atau THR
+8. PPh21 yang telah dibayarkan sebelumnya
+9. Pasal 17
+
+User Story:
+1. Hitung Penghasilan bruto.
+
+   Yang termasuk penghasilan bruto pada bulan berjalan adalah gaji pokok (basic salary),
+   tunjangan transport (bila ada), tunjangan perumahan (bila ada), premi Jaminan Kecelakaan Kerja,
+   premi Jaminan Kematian, premi asuransi kesehatan dan tunjangan lainnya yang sifatnya teratur.
+
+2. Hitung Total Pengurang (biaya penghasilan yang tidak dikenai pajak).
+
+   Yang termasuk pengurang adalah biaya jabatan, iuran pensiun (bila Anda ikut), dan iuran Jaminan
+   Hari Tua. Biaya jabatan besarnya 5% dari gaji pokok; iuran pensiun biasanya 2% dari gaji pokok,
+   sesuai dengan Keputusan Menteri Keuangan.
+
+   Bila Anda ikut Program Jamsostek, iuran Jaminan Hari Tua biasanya sebesar 5,7% dari gaji pokok
+   setiap bulan; 3.7% ditanggung perusahaan dan 2% ditanggung pekerja.
+
+3. Hitung Penghasilan bersih (netto) = 1 - 2
+
+   Penghasilan netto adalah penghasilan bruto (dari langkah nomor 1) kurang total pengurang (dari
+   langkah nomor 2).
+
+4. Hitung Penghasilan bersih setahun = 3 * 12
+
+   Untuk menghitung potongan pajak penghasilan pribadi, penghasilan bersih per bulan disetahunkan
+   dulu, yaitu penghasilan bersih (dari langkah nomor 3) dikalikan 12.
+
+5. Hitung PTKP
+   
+   Besarnya PTKP tergantung dari status pekerja (Wajib Pajak). Ada perbedaan PTKP antara yang belum
+   kawin, kawin dan belum punya anak (K0), kawin dan punya anak 1 (K1), kawin dan punya anak dua (K2),
+   dan kawin dan punya anak 3 (K3).
+
+6. Hitung Penghasilan Kena Pajak = 4 - 5
+
+   Penghasilan kena pajak adalah penghasilan bersih setahun (dari langkah nomor 4) dikurang Penghasilan
+   Tidak Kena Pajak (dari langkah nomor 5).
+
+7. Hitung Pajak Penghasilan sesuai tarif pajak penghasilan
+
+   Pajak Penghasilan adalah Penghasilan Kena Pajak (dari langkah nomor 6) dikalikan dengan Tarif Pajak
+   Penghasilan Pribadi.
+
+8. Hitung Pajak Penghasilan per bulan
+
+   Menghitung pajaka penghasilan pribadi pada bulan berjalan adalah membagi total pajak setahun (dari
+   langkah nomor 7) dengan 12.
+
+Pseudocode:
+// Hitung pajak berdasarkan tarif pajak pasal 17 method 1 -- upside down
+level = 4; tax = 0;
+CalcTax(net, level)
+if (level>1)
+   if net > gt[level]
+      // Hitung nilai pajak current level
+      print "Pajak " + percentage[level] + " dari " + (net - upto[level-1]) + " berikutnya"
+      tax += (net - upto[level-1]) * percentage[level]
+      // Hitung pajak berjenjang level sebelumnya
+      CalcTax(upto[level-1], level-1)
+    else
+      CalcTax(net, level-1)
+else
+   print "Pajak " + percentage[level] + " dari " + net + " pertama"
+   tax = net * percentage[level]
+
+// Method 2
+level = ; tax = 0;
+CalcTax(net, level)
+if (level < 4)
+   if (net > upto[level])
+      // Hitung pajak berjenjang upto, current level
+      tax += (upto[level] - gt[level]) * percentage[level]
+      print "Pajak " + percentage[level] + " dari " + upto[level] + (level==1 ? " pertama " : " berikutnya")
+      // Hitung pajak berjenjang level berikutnya
+      CalcTax(net, level+1)
+   else
+      // Hitung pajak level tertinggi atas net (sisa)
+      tax += net * percentage[level]
+else
+   // Level tertinggi dari Pasal 17
+   tax += net * percentage[level]

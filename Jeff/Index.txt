@@ -1,0 +1,5 @@
+Listing 4-1: EnclosingClass.java
+Listing 4-2: Rectangle.java
+Listing 4-3: DemoNested.java
+Listing 4-4: EnclosingClass2.java
+Listing 4-5: NSMCDemo.java
