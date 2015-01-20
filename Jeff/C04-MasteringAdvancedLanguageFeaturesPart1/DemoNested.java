@@ -1,5 +1,5 @@
 /**
- * Listing 4–3. Creating and using different Rectangle implementations
+ * Listing 4-3. Creating and using different Rectangle implementations
  */
 public class DemoNested
 {

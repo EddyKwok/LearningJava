@@ -2,6 +2,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 /**
+ * Listing 1-6. Pick a card, any card.
  * Simulate a deck of cards.
  *
  * @author Jeff Friesen

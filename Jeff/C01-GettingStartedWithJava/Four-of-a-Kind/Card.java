@@ -1,4 +1,6 @@
 /**
+ * Listing 1-5. Merging suits and ranks into cards.
+ *
  * Simulating a playing card.
  *
  * @author Jeff Friesen

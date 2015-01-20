@@ -1,5 +1,5 @@
 /**
- * <code>Listing 4–2.</code> Using static member classes to declare multiple implementations of their enclosing class.
+ * Listing 4-2. Using static member classes to declare multiple implementations of their enclosing class.
  * 
  */
 public abstract class Rectangle
