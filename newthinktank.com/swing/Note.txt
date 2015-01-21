@@ -1,0 +1,1 @@
+Lesson23.java is exactly the same as lesson22.java because it was the continuation of the Lesson2 tutorial.
